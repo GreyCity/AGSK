@@ -7,7 +7,6 @@
 clc;
 clear all;
 
-
 format long;
 Alg_Name='AGSK';  % 算法名称
 n_problems=30;
@@ -17,7 +16,7 @@ Run_No=51;  % 计算轮数：30
 
 for problem_size =[10 30 50 100]  % CEC2017的问题维度
 	
-	max_nfes = 10000 * problem_size;  % 最大操作数
+    max_nfes = 10000 * problem_size;  % 最大操作数
     val_2_reach = 10^(-8);  % 最小误差
     max_region = 100.0;  % 上下边界100，-100
     min_region = -100.0;
@@ -36,16 +35,16 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
         outcome = [];  % 记录误差
         fprintf('\n-------------------------------------------------------\n')
         fprintf('Function = %d, Dimension size = %d\n', func, problem_size)
-		dim1=[];
+        dim1=[];
         dim2=[];
 		
         for run_id = 1 : Run_No
 
             rng(problem_size*func*run_id,'twister'); %To Check
-			run_funcvals = [];  % 存储最优值
+            run_funcvals = [];  % 存储最优值
             bsf_error_val=[];  % 存储误差值
             % parameter settings for pop-size 初始种群大小NP
-			pop_size = 100;  % 初始种群大小
+            pop_size = 100;  % 初始种群大小
             max_pop_size = pop_size;  % 种群最大值:初始种群大小
             min_pop_size = 12;  % 种群最小值:12
             
@@ -66,7 +65,7 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                 if fitness(i) < bsf_fit_var
                     bsf_fit_var = fitness(i);  % 最优值
                 end
-				run_funcvals = [run_funcvals;bsf_fit_var];  % 记录最优值
+                run_funcvals = [run_funcvals;bsf_fit_var];  % 记录最优值
             end
             
            
@@ -89,7 +88,6 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
             while nfes < max_nfes
                 g=g+1;
              
-                
                  if  (nfes < 0.1*max_nfes)% intial probability values 
                     KW_ind=[0.85 0.05 0.05 0.05];  % 以0.85的概率选方案1,0.05选方案2，0.05选方案3，0.05选方案4
                     K_rand_ind=rand(pop_size, 1);
@@ -169,7 +167,7 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                         bsf_fit_var = children_fitness(i);  % 更新最优值
                         bsf_solution = ui(i, :);  % 更新最优解
                     end
-					run_funcvals = [run_funcvals;bsf_fit_var];
+                    run_funcvals = [run_funcvals;bsf_fit_var];
                 end
                 % Calculate the improvemnt of each settings
                 dif = abs(fitness - children_fitness);
@@ -201,12 +199,12 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                 popold(Child_is_better_index == 2, :) = ui(Child_is_better_index == 2, :);  % 更新种群
                 % for resizing the population size %%%%
                
-				plan_pop_size = round((min_pop_size - max_pop_size)* ((nfes / max_nfes).^((1-nfes / max_nfes)))  + max_pop_size);  % max_pop_size = NP 种群个体数量线性减少
+                plan_pop_size = round((min_pop_size - max_pop_size)* ((nfes / max_nfes).^((1-nfes / max_nfes)))  + max_pop_size);  % max_pop_size = NP 种群个体数量线性减少
                
                 if pop_size > plan_pop_size
                     reduction_ind_num = pop_size - plan_pop_size;
                     if (pop_size - reduction_ind_num <  min_pop_size)
-						reduction_ind_num = pop_size - min_pop_size;
+                        reduction_ind_num = pop_size - min_pop_size;
                     end
                     
                     pop_size = pop_size - reduction_ind_num;  % 计算新的种群个体数量
@@ -218,7 +216,6 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                         fitness(worst_ind,:) = [];
                         K(worst_ind,:)=[];
                     end
-                    
                 end
                 
             end  % end while loop
@@ -236,7 +233,6 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                 run_funcvals=run_funcvals';
                 dim1(run_id,:)=1:length(run_funcvals);
                 dim2(run_id,:)=log10(run_funcvals);
-
             end
             
         end  % end 1 run
