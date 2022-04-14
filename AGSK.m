@@ -28,7 +28,7 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
     KR_pool = [0.2 0.1 0.9 0.9];  % 知识比率池(knowledge ratio pool)：4种选择方案
     
     
-    for func = 5:n_problems  % CEC2020的10个问题
+    for func = 1:n_problems  % CEC2017的30个问题
 
         optimum= func * 100.0;  % 真实全局最优解
         % Record the best results
@@ -58,7 +58,6 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
             nfes = 0;  % 适应度计数器
             bsf_fit_var = 1e+300;  % 最优值初始化为一个大数
             
-            %%%%%%%%%%%%%%%%%%%%%%%% for out
             for i = 1 : pop_size  % 找到最小(优)值
                 nfes = nfes + 1;
                 if nfes > max_nfes; break; end
@@ -74,11 +73,9 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
             KF=[];
             KR=[];
             Kind=rand(pop_size, 1);  % 计算NP个个体的K值，0.5的概率在取值在(0,1)的随机小数，0.5的概率在取值在[1,20]的随机整数
-            %%%%%%%%%%%%%%%%%%%K uniform rand (0,1) with prob 0.5 and unifrom integer [1,20] with prob 0.5
             K(Kind<0.5,:)= rand(sum(Kind<0.5), 1);
             K(Kind>=0.5,:)=ceil(20 * rand(sum(Kind>=0.5), 1));  % K值越大，初级知识越短，高级知识越长
-            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                       
+       
             g=0;  % 种群迭代次数初始化为0
             % main loop
             
@@ -197,7 +194,7 @@ for problem_size =[10 30 50 100]  % CEC2017的问题维度
                 
                 popold = pop;
                 popold(Child_is_better_index == 2, :) = ui(Child_is_better_index == 2, :);  % 更新种群
-                % for resizing the population size %%%%
+                % for resizing the population size
                
                 plan_pop_size = round((min_pop_size - max_pop_size)* ((nfes / max_nfes).^((1-nfes / max_nfes)))  + max_pop_size);  % max_pop_size = NP 种群个体数量线性减少
                
